@@ -2,8 +2,10 @@
 
 ## Requirements
 
+* [apache](https://github.com/puppetlabs/puppetlabs-apache)
+* [inifile](https://github.com/puppetlabs/puppetlabs-inifile)
 * [stdlib](https://github.com/puppetlabs/puppetlabs-stdlib)
-* [vcsrepo](https://github.com/puppetlabs/puppet-vcsrepo)
+* [vcsrepo](https://github.com/puppetlabs/puppetlabs-vcsrepo)
 
 Debian and derivatives only:
 
@@ -40,6 +42,45 @@ Debian and derivatives only:
       class { 'icingaweb2':
         manage_repo    => true,
         install_method => 'package',
+      }
+    }
+
+### Business process module
+
+    node /box/ {
+      class {
+        'icingaweb2':;
+        'icingaweb2::mod::businessprocess':;
+      }
+    }
+
+### Deployment module
+
+    node /box/ {
+      class {
+        'icingaweb2':;
+        'icingaweb2::mod::deployment':
+          auth_token => 'secret_token';
+      }
+    }
+
+### Graphite module
+
+    node /box/ {
+      class {
+        'icingaweb2':;
+        'icingaweb2::mod::graphite':
+          graphite_base_url => 'http://graphite.com/render?';
+      }
+    }
+
+### NagVis module
+
+    node /box/ {
+      class {
+        'icingaweb2':;
+        'icingaweb2::mod::nagvis':
+          nagvis_url => 'http://example.org/nagvis/';
       }
     }
 

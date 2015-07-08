@@ -3,10 +3,6 @@
 define icingaweb2::preinstall::redhat(
   $pkg_repo_version,
 ) {
-  if $caller_module_name != $module_name {
-    fail 'Tried to include private class icingaweb2::preinstall::redhat'
-  }
-
   case $::operatingsystem {
     'RedHat', 'CentOS', 'Scientific': {
       case $pkg_repo_version {
@@ -36,10 +32,10 @@ define icingaweb2::preinstall::redhat(
       }
     }
 
-    # TODO 'Debian': {}
-    # TODO 'Ubuntu': {}
-    # TODO 'Fedora': {}
     # TODO 'Amazon': {}
+    # TODO 'Debian': {}
+    # TODO 'Fedora': {}
+    # TODO 'Ubuntu': {}
 
     default: {
       # Already caught by icingaweb2::preinstall

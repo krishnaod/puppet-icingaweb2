@@ -26,6 +26,11 @@ class icingaweb2::params {
   $log_resource      = 'icingaweb_db'
   $log_store         = 'db'
   $pkg_repo_version  = 'release'
+  $template_auth     = 'icingaweb2/authentication.ini.erb'
+  $template_config   = 'icingaweb2/config.ini.erb'
+  $template_resources='icingaweb2/resources.ini.erb'
+  $template_roles    = 'icingaweb2/roles.ini.erb'
+  $template_apache   = 'icingaweb2/apache2.conf.erb'
   $web_db            = 'mysql'
   $web_db_host       = 'localhost'
   $web_db_name       = 'icingaweb2'
@@ -40,17 +45,27 @@ class icingaweb2::params {
       $config_dir                        = '/etc/icingaweb2'
       $config_dir_mode                   = '0755'
       $config_dir_recurse                = false
-      $config_file_mode                  = '0644'
+      $config_file_mode                  = '0664'
       $config_group                      = 'icingaweb2'
       $config_user                       = 'icingaweb2'
       $pkg_ensure                        = present
       $pkg_list                          = ['icingaweb2']
       $pkg_repo_release_key              = 'http://packages.icinga.org/icinga.key'
       $pkg_repo_release_metadata_expire  = undef
-      $pkg_repo_release_url              = 'http://packages.icinga.org/epel/$releasever/release'
+
+      case $::operatingsystem {
+        'Scientific': {
+          $pkg_repo_release_url          = "http://packages.icinga.org/epel/${::operatingsystemmajrelease}/release"
+          $pkg_repo_snapshot_url         = "http://packages.icinga.org/epel/${::operatingsystemmajrelease}/snapshot"
+        }
+        default: {
+          $pkg_repo_release_url          = 'http://packages.icinga.org/epel/$releasever/release'
+          $pkg_repo_snapshot_url         = 'http://packages.icinga.org/epel/$releasever/snapshot'
+        }
+      }
+
       $pkg_repo_snapshot_key             = 'http://packages.icinga.org/icinga.key'
       $pkg_repo_snapshot_metadata_expire = '1d'
-      $pkg_repo_snapshot_url             = 'http://packages.icinga.org/epel/$releasever/snapshot'
       $web_root                          = '/usr/share/icingaweb2'
 
       $pkg_deps = [
